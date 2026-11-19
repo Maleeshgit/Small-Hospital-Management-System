@@ -54,6 +54,12 @@ public class AppointmentService {
 				.toList();
 	}
 
+	public List<AppointmentResponse> findByDoctorUsername(String username) {
+		AppUser doctor = userRepository.findByUsername(username)
+				.orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Doctor not found"));
+		return findByDoctor(doctor.getId());
+	}
+
 	public List<AppointmentResponse> findByPatient(Long patientId) {
 		patientRepository.findById(patientId)
 				.orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Patient not found"));
